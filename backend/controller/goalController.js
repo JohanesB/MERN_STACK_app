@@ -19,7 +19,7 @@ const setGoals = asynchHandler(async(req, res) => {
         res.status(400)
         throw new Error('please add a name')
     }
-    if (!req.body.Dob) {
+    if (!req.body.DateOfBirth) {
         res.status(400)
         throw new Error('please add a date of birth')
     }
@@ -34,7 +34,7 @@ const setGoals = asynchHandler(async(req, res) => {
 
     const goal = await Goal.create({
         Name: req.body.Name,
-        DateOfBirth: req.body.Dob,
+        DateOfBirth: req.body.DateOfBirth,
         Gender: req.body.Gender,
         Salary: req.body.Salary,
     })

@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  crud_app:
+    image: backend
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+      MONGO_URI: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.rngpmh4.mongodb.net/mernapp?retryWrites=true&w=majority
+    ports:
+      - "5000:5000"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/backend/src/api
+      - ./backend/src/api/node_modules
+    container_name: crud_app
+    networks:
+      - mern-api
+  mongodb:
+    image: mongo:latest
+    restart: always
+    build: .
+    - data:/data/db
+    container_name: crud_mongodb
+    volumes:
+      - data:/config/db
+    environment:
+      DB_USERNAME: ${MONGO_USERNAME}
+      DB_PASSWORD: ${MONGO_PASSWORD}
+    networks:
+      - mern-api
+  mongo-express:
+    image: mongo-express
+    links:
+      - mongodb
+    ports:
+      - 5000:5000
+    environment:
+      MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      MONGODB_SERVER: mongodb
+      AUTH_USERNAME: josniper
+      AUTH_PASSWORD: jo@3131991
+    volumes:
+      - data
+    networks:
+      - mern-api
+networks:
+  mern-api:
+    driver: bridge
+volumes:
+  data:
+    driver: local

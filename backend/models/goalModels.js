@@ -6,7 +6,7 @@ const goalSchema = mongoose.Schema({
         required: [true, 'please insert a name']
     },
     DateOfBirth: {
-        type: Number,
+        type: String,
         required: [true, 'please insert a date of birth']
     },
     Gender: {
@@ -14,7 +14,7 @@ const goalSchema = mongoose.Schema({
         required: [true, 'please insert a gender']
     },
     Salary: {
-        type: Number,
+        type: String,
         required: [true, 'please insert a salary']
     },
 },
